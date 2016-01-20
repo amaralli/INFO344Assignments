@@ -11,6 +11,6 @@
         >
     </div>
     <div class="form-group">
-        <button class="btn btn-primary" type="submit"> Go! </button>
+        <button class="btn btn-info" type="submit"> Go! </button>
     </div>
 </form>

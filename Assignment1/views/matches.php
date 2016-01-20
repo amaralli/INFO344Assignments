@@ -1,6 +1,8 @@
 <h1>Matches</h1>
 
-<table class="table table-striped table-hover"> 
+<?php date_default_timezone_set('America/Los_Angeles')?>
+
+<table class="table table-striped table-hover table-bordered"> 
     <tr>
         <th>Title</th>
         <th>Date Released</th>

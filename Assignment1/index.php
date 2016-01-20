@@ -23,11 +23,12 @@ $matches = $moviesModel->search($q);
     integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 
 </head>
-<body>
-    <?php
-        include 'views/search-view.php';
-        include 'views/matches.php';
-    ?>
-
+<body background='img/confectionary/confectionary.png'>
+    <div class="container">
+        <?php
+            include 'views/search-view.php';
+            include 'views/matches.php';
+        ?>
+    </div>
 </body>
 </html>
