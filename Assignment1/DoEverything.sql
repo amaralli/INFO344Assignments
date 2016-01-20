@@ -8,6 +8,6 @@ load data infile '/var/www/html/info344assignments/assignment1/data/movies-2014.
 into table movies
 fields terminated by ','
 optionally enclosed by '"'
-ignore 1 lines
-(title, released, distributor, genre,  rating, gross, tickets, imdb_id);
+ignore 1 lines;
+/*(title, released, distributor, genre,  rating, gross, tickets, imdb_id);*/
 
