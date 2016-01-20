@@ -1,4 +1,4 @@
-<h1>Lookup a Movie from 2014!</h1>
+<h1>Search Movie Revenues From 2014</h1>
 <form action="" method="GET">
     <div class="form-group">
         <input type="text"

@@ -26,13 +26,8 @@ $matches = $moviesModel->search($q);
 <body>
     <?php
         include 'views/search-view.php';
-        include 'views/matches.php'
+        include 'views/matches.php';
     ?>
-
-    <!--May need to make this its own view-->
-    <h1>Movie Revenues From 2014</h1>
-
-
 
 </body>
 </html>

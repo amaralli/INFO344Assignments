@@ -8,10 +8,10 @@ class GrabMovies {
     }
 
     public function search($query) {
-        $sqlResults = 'select * from movies where title=?';
+        $sql = 'select * from movies where title like ?';
         $statement = $this->conn->prepare($sql);
-        $success = $statement->execute(array($q));
-        if(!success) {
+        $success = $statement->execute(array("%".$query."%"));
+        if(!$success) {
             trigger_error($statement->errorInfo());
         } else {
             return $statement->fetchAll();

@@ -1,6 +1,6 @@
 <h1>Matches</h1>
 
-<table class=".table-striped"> 
+<table class="table table-striped table-hover"> 
     <tr>
         <th>Title</th>
         <th>Date Released</th>
@@ -9,10 +9,11 @@
     </tr>
     <?php foreach($matches as $match): ?>
     <tr>
-        <td><?= htmlentities($match['title']) ?></td>
-        <td><?= htmlentities($match['released']) ?></td>
-        <td><?= htmlentities($match['tickets']) ?></td>
-        <td><?= htmlentities($match['gross']) ?></td>
+        <td><a href="models/details.php?id=<?= htmlentities($match['id']) ?>">
+            <?= htmlentities($match['title']) ?></a></td>
+        <td><?= htmlentities($date = date("j-M-Y", strtotime($match['released']))) ?></td>
+        <td><?= htmlentities(number_format($match['tickets'])) ?></td>
+        <td>$<?= htmlentities(number_format($match['gross'])) ?></td>
     </tr> 
     <?php endforeach; ?>
 </table>

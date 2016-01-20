@@ -1,5 +1,5 @@
 <?php 
-$dbHost = 'localhost:3600';
+$dbHost = '127.0.0.1';
 $dbDatabase = 'movies';
 $dbUser = 'moviesuser';
 $dbPassword = 'uiQYxS+q';
