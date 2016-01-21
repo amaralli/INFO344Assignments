@@ -37,7 +37,7 @@
         <h4>This movie sold <?= htmlentities(number_format($resultId[0]['tickets']))?> tickets,
         earning gross revenues of $<?= htmlentities(number_format($resultId[0]['gross']))?></h4>
 
-        <h1>Rotten Tomatoes Rating</h1>
+        <h1>Rotten Tomatoes Details</h1>
 
         <h5><?= htmlentities($results->Plot) ?></h5>
         <h5>Directed By: <?= htmlentities($results->Director) ?></h5>
