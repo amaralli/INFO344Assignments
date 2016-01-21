@@ -1,3 +1,7 @@
+<!--Builds the main landing page the user sees for the movie revenue database
+Shows the user the full list of movies, but the user may parse down the data by
+using the search functionality. The user may also click the link to see more data
+about the movie-->
 <?php
 require_once 'connection.php';
 require_once 'models/movies-model.php';
@@ -5,8 +9,8 @@ require_once 'models/movies-model.php';
 $q = $_GET['q'];
 
 $conn = getConnection();
-$moviesModel = new GrabMovies($conn);
-$matches = $moviesModel->search($q);
+$moviesModel = new GrabMovieData($conn);
+$matches = $moviesModel->searchByTitle($q);
 
 ?>
 
@@ -19,6 +23,7 @@ $matches = $moviesModel->search($q);
     <link rel="icon" href="img/Film-Icon.png">
     <title>Movie Database</title>
 
+    <!--Bootstrap functionality-->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" 
     integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 

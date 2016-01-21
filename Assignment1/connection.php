@@ -1,3 +1,5 @@
+<!--This file establishes the secure connection between the fucntions that pull and use the
+data in the database-->
 <?php
 function getConnection() {
     require_once 'secret/db-credentials.php';

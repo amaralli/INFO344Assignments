@@ -1,3 +1,4 @@
+<!--This file creates the search form the user interacts with-->
 <h1>Search Movie Revenues From 2014</h1>
 <form action="" method="GET">
     <div class="form-group">

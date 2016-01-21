@@ -1,11 +1,14 @@
+<!--Builds the page users can look to for more detailed
+    information about the movie they selected-->
+
 <?php
-    require_once '../connection.php';
-    require_once 'details-model.php';
+    require_once 'connection.php';
+    require_once 'models/movies-model.php';
 
     $q = $_GET['id'];
 
     $conn = getConnection();
-    $movieModel = new GrabSingleMovie($conn);
+    $movieModel = new GrabMovieData($conn);
     $resultId = $movieModel->searchById($q);
     $resultImdbId = $movieModel->searchByImdb($resultId[0]['imdb_id']);
     $id = $resultId[0]['imdb_id'];
@@ -22,12 +25,14 @@
 <head>
     <meta charset="UTF-8">
     <title><?= htmlentities($resultId[0]['title']) ?></title>
+    <link rel="icon" href="img/Film-Icon.png">
 
+    <!--Bootstrap functionality-->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" 
     integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 
 </head>
-<body background="../img/pink_rice/pink_rice.png">
+<body background="img/pink_rice/pink_rice.png">
     <div class='container'>
         
         <h1><?= htmlentities($resultId[0]['title'])?></h1>
