@@ -1,10 +1,11 @@
-<!--Builds the main landing page the user sees for the movie revenue database
-Shows the user the full list of movies, but the user may parse down the data by
-using the search functionality. The user may also click the link to see more data
-about the movie-->
 <?php
 require_once 'connection.php';
 require_once 'models/movies-model.php';
+
+/*Builds the main landing page the user sees for the movie revenue database
+Shows the user the full list of movies, but the user may parse down the data by
+using the search functionality. The user may also click the link to see more data
+about the movie*/
 
 $q = $_GET['q'];
 
