@@ -14,7 +14,7 @@ class GrabMovies {
     public function search($query) {
         $sql = 'select * from movies where title like ?';
         $statement = $this->conn->prepare($sql);
-        $success = $statement->execute(array($query));
+        $success = $statement->execute(array("%".$query."%"));
         if(!$success) {
             trigger_error($statement->errorInfo());
         } else {
