@@ -1,4 +1,4 @@
-<!--<?php
+<?php
 require_once 'connection.php';
 require_once 'models/movies-model.php';
 
@@ -10,10 +10,10 @@ about the movie*/
 $q = $_GET['q'];
 
 $conn = getConnection();
-$moviesModel = new GrabMovieData($conn);
-$matches = $moviesModel->searchByTitle($q);
+$moviesModel = new GrabMovies($conn);
+$matches = $moviesModel->search($q);
 
-?>-->
+?>
 
 
 <!DOCTYPE html>

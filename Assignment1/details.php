@@ -3,12 +3,12 @@
 
 <?php
     require_once 'connection.php';
-    require_once 'models/movies-model.php';
+    require_once 'models/details-model.php';
 
     $q = $_GET['id'];
 
     $conn = getConnection();
-    $movieModel = new GrabMovieData($conn);
+    $movieModel = new GrabSingleMovie($conn);
     $resultId = $movieModel->searchById($q);
     $resultImdbId = $movieModel->searchByImdb($resultId[0]['imdb_id']);
     $id = $resultId[0]['imdb_id'];
