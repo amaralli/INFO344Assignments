@@ -5,6 +5,7 @@ var session = require('express-session');
 var RedisStore = require('connect-redis')(session);
 var passport = require('passport');
 var mongoose = require('mongoose');
+var bCrypt = require('bcrypt-nodejs')
 
 var authInfo = require('./secret/oauth.json');
 var callback = authInfo.callbackUrl;
@@ -42,6 +43,41 @@ passport.use(new FacebookStrategy({
     return cb(null, profile);
   }
 ));
+
+passport.use(new LocalStrategy({
+     passReqToCallback : true 
+ }, function(req, username, password, done) {
+    User.findOne({'username' : username}, function(err, user) {
+        if(err) {
+            console.log("Error on signin" + 'err');
+            return done(err);
+        } 
+
+        if(user) {
+            //SIGN THE USER IN HERE
+        } else {
+            var newUser = new User();
+
+            newUser.username = username;
+            newUser.password = createHash(password);
+            newUser.email = req.param('email');
+            newUser.displayName = req.param('displayName');
+
+            newUser.save(function(err) {
+                if (err){
+                    console.log('Error in Saving user: '+err);  
+                    throw err;  
+                }
+                console.log('User Registration succesful');    
+                return done(null, newUser);
+            });
+        }
+    });
+ }));
+
+var createHash = function(password){
+        return bCrypt.hashSync(password, bCrypt.genSaltSync(10), null);
+}
 
 passport.serializeUser(function(user, done) {
     done(null, user); 
