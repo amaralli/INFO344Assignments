@@ -14,26 +14,29 @@
 	</header>	
 	<h2>Create an account</h2>
 
-	<form>
+	<form action="/signup" method="post" id="signup-form">
 	  <div class="form-group">
 	    <label for="emalSignUp">Email address</label>
-	    <input type="email" class="form-control" id="emailSignUp" placeholder="Email">
+	    <input type="email" name="email" class="form-control" id="emailSignUp" placeholder="Email">
 	  </div>
 	  <div class="form-group">
 	  	<label for="usernameSignUp">Choose username</label>
-	  	<input class="form-control" id="usernameSignUp" placeholder="Username">
+	  	<input class="form-control" id="usernameSignUp" placeholder="Username" name="username">
 	  </div>
 	  <div class="form-group">
 	    <label for="passwordSignUp">Password</label>
-	    <input type="password" class="form-control" id="passwordSignUp" placeholder="Password">
+	    <input type="password" class="form-control" id="passwordSignUp" placeholder="Password" name="password">
 	  </div>
 	  <div class="form-group">
 	    <label for="confirmSignUp">Confirm password</label>
-	    <input type="password" class="form-control" id="confirmSignUp" placeholder="Confirm Password">
+	    <input type="password" class="form-control" id="confirmSignUp" placeholder="Confirm Password" name="confirm-password">
+	  </div>
+	  <div>
+	  	<input type="submit" value="Log In"/>
 	  </div>
 	</form>
 
-	<button class="btn btn-primary" type="submit">Get started!</button>
+	<button class="btn btn-primary" form="signup-form" type="submit">Get started!</button>
 
 
 </body>

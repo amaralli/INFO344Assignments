@@ -13,6 +13,7 @@ var callback = authInfo.callbackUrl;
 var User = require('./mongo.js');
 
 var FacebookStrategy = require('passport-facebook').Strategy;
+var LocalStrategy   = require('passport-local').Strategy;
 
 var cookieSigSecret = process.env.COOKIE_SIG_SECRET;
 if (!cookieSigSecret) {
@@ -22,7 +23,9 @@ if (!cookieSigSecret) {
 
 var app = express();
 app.use(morgan('dev'));
+//url-encoded
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: false}));
 
 app.use(session({
     secret: cookieSigSecret,
@@ -45,8 +48,11 @@ passport.use(new FacebookStrategy({
 ));
 
 passport.use(new LocalStrategy({
+    usernameField: 'email',
      passReqToCallback : true 
  }, function(req, username, password, done) {
+    console.log('entered local strategy callback');
+    //should change to email
     User.findOne({'username' : username}, function(err, user) {
         if(err) {
             console.log("Error on signin" + 'err');
@@ -55,23 +61,26 @@ passport.use(new LocalStrategy({
 
         if(user) {
             //SIGN THE USER IN HERE
+            console.log("how did you get here.");
         } else {
             var newUser = new User();
 
             newUser.username = username;
             newUser.password = createHash(password);
             newUser.email = req.param('email');
-            newUser.displayName = req.param('displayName');
+            //newUser.displayName = req.param('displayName');
+            console.log("ended up creating a user");
 
             newUser.save(function(err) {
                 if (err){
-                    console.log('Error in Saving user: '+err);  
+                    console.log('Error in Saving user: '+ err);  
                     throw err;  
                 }
-                console.log('User Registration succesful');    
+                console.log('User Registration succesful');  
                 return done(null, newUser);
             });
         }
+        
     });
  }));
 
@@ -101,6 +110,28 @@ app.get('/signout', function(req, res) {
     res.redirect('/'); 
 });
 
+//check to see if I need to call it API to get this work (obviously should change)
+//do I need res.json({message: 'authenticated'}), don't think so, but hell if I know
+
+//route puts in user
+//don't need to authenticate, pass in req.login as the first parameter.
+//new user would be created in here
+//have own middleware function
+
+//app.post();
+
+
+app.post('/signup', passport.authenticate('local', { failureRedirect: '/signup'}),
+    function(req, res, next) {
+        //console.dir(req.user);
+        /*req.login(req.user, function(err) {
+            if(err) { return next(err); }
+            return res.json(req.user);
+        }); */
+        console.log('redirecting to secure home page');
+        res.redirect('/secure.html');
+    });
+
 //tell express to serve static files from the /static/public
 //subdirectory (any user can see these)
 app.use(express.static(__dirname + '/static/public'));
@@ -111,9 +142,10 @@ app.use(express.static(__dirname + '/static/public'));
 app.use(function(req, res, next) {
     if(!req.isAuthenticated()) {
         res.redirect('/'); 
-    }
-    next();
-        
+        console.log("got caught up in the middleware function");
+    } else {
+        next();
+    }    
 });
 
 //tell express to serve static files from the /static/secure
