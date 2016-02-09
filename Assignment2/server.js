@@ -117,6 +117,11 @@ passport.use('local-login', new LocalStrategy({
 
 }));
 
+var isValidPassword = function(user, password){
+  console.log("checkin local login");
+  return bCrypt.compareSync(password, user.password);
+}
+
 var createHash = function(password){
         return bCrypt.hashSync(password, bCrypt.genSaltSync(10), null);
 }

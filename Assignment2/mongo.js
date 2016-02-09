@@ -18,9 +18,7 @@ var User = mongoose.model('User', userSchema);
     return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
 };*/
 
-var isValidPassword = function(user, password){
-  return bCrypt.compareSync(password, user.password);
-}
+
 
 mongoose.connect(dbConfig.url);
 
