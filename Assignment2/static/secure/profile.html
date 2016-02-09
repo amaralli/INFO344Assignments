@@ -11,13 +11,13 @@
 
     <title>Profile</title>
 </head>
-<body class="container" ng-class="users" ng-controller="UserController">
+<body class="container" ng-app="users" ng-controller="UserController">
 	<header class="page-header">
 		<h1>This is you!</h1>
 	</header>	
 	<h2>Your life. Right here.</h2>
 	<p>EMAIL: {{user.email}}</p>
-	<p>USERNAME: {{user.username}}</p>
+	<p>USERNAME: {{displayName}}</p>
 
 	<h4>Done?</h4>
 	<a href="/signout" class="btn btn-danger">Sign out!</button>
