@@ -5,14 +5,19 @@
     <meta charset="UTF-8">
     
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0-rc.1/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.1/moment.min.js"></script>
+    <script src="profile.js"></script>
 
     <title>Profile</title>
 </head>
-<body class="container">
+<body class="container" ng-class="users" ng-controller="UserController">
 	<header class="page-header">
 		<h1>This is you!</h1>
 	</header>	
-	<h2>Info to come</h2>
+	<h2>Your life. Right here.</h2>
+	<p>EMAIL: {{user.email}}</p>
+	<p>USERNAME: {{user.username}}</p>
 
 	<h4>Done?</h4>
 	<a href="/signout" class="btn btn-danger">Sign out!</button>

@@ -47,8 +47,10 @@ passport.use(new FacebookStrategy({
   }
 ));
 
-passport.use(new LocalStrategy({
-    usernameField: 'email',
+
+
+passport.use('local-signup', new LocalStrategy({
+     usernameField: 'email',
      passReqToCallback : true 
  }, function(req, username, password, done) {
     console.log('entered local strategy callback');
@@ -68,7 +70,6 @@ passport.use(new LocalStrategy({
             newUser.username = username;
             newUser.password = createHash(password);
             newUser.email = req.param('email');
-            //newUser.displayName = req.param('displayName');
             console.log("ended up creating a user");
 
             newUser.save(function(err) {
@@ -83,6 +84,10 @@ passport.use(new LocalStrategy({
         
     });
  }));
+
+/*passport.use('local', new LocalStrategy({
+
+}), function);*/
 
 var createHash = function(password){
         return bCrypt.hashSync(password, bCrypt.genSaltSync(10), null);
@@ -110,6 +115,10 @@ app.get('/signout', function(req, res) {
     res.redirect('/'); 
 });
 
+app.get('/profile', function(req, res) {
+    res.json(req.user);
+});
+
 //check to see if I need to call it API to get this work (obviously should change)
 //do I need res.json({message: 'authenticated'}), don't think so, but hell if I know
 
@@ -121,7 +130,7 @@ app.get('/signout', function(req, res) {
 //app.post();
 
 
-app.post('/signup', passport.authenticate('local', { failureRedirect: '/signup'}),
+app.post('/signup', passport.authenticate('local-signup', { failureRedirect: '/signup'}),
     function(req, res, next) {
         //console.dir(req.user);
         /*req.login(req.user, function(err) {
