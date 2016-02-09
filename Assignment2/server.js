@@ -54,40 +54,68 @@ passport.use('local-signup', new LocalStrategy({
      passReqToCallback : true 
  }, function(req, username, password, done) {
     console.log('entered local strategy callback');
-    //should change to email
-    User.findOne({'username' : username}, function(err, user) {
-        if(err) {
-            console.log("Error on signin" + 'err');
-            return done(err);
-        } 
-
-        if(user) {
-            //SIGN THE USER IN HERE
-            console.log("how did you get here.");
-        } else {
-            var newUser = new User();
-
-            newUser.username = username;
-            newUser.password = createHash(password);
-            newUser.email = req.param('email');
-            console.log("ended up creating a user");
-
-            newUser.save(function(err) {
-                if (err){
-                    console.log('Error in Saving user: '+ err);  
-                    throw err;  
-                }
-                console.log('User Registration succesful');  
-                return done(null, newUser);
-            });
-        }
+    if(req.body.confirm == req.body.password) {
         
-    });
+        User.findOne({'email' : username}, function(err, user) {
+            if(err) {
+                console.log("Error on signin" + 'err');
+                return done(err);
+            } 
+
+            if(user) {
+                //SIGN THE USER IN HERE
+                console.log("how did you get here.");
+            } else {
+                var newUser = new User();
+
+                newUser.email = username;
+                newUser.password = createHash(password);
+                newUser.displayName = req.body.displayName;
+                console.log("ended up creating a user");
+
+                newUser.save(function(err) {
+                    if (err){
+                        console.log('Error in Saving user: '+ err);  
+                        throw err;  
+                    }
+                    console.log('User Registration succesful');  
+                    return done(null, newUser);
+                });
+            }
+            
+        });
+    } else {
+        console.log("passwords need to match");
+        return done(null, false);
+    }
  }));
 
-/*passport.use('local', new LocalStrategy({
+passport.use('local-login', new LocalStrategy({
+    usernameField : 'email',
+    passReqToCallback : true
+}, function(req, username, password, done) {
+    console.log('made it into local login');
+    User.findOne({'email' : username}, function(err, user){
+        if (err) { 
+            console.log("error");
+            return done(err); 
+        }
+        if (!user) {
+          console.log('User Not Found with username ' + username);
+          return done(null, false);                 
+        }
+        // User exists but wrong password, log the error 
+        if (!isValidPassword(user, password)){
+          console.log('Invalid Password');
+          return done(null, false);
+        }
+        // User and password both match, return user from 
+        // done method which will be treated like success
+        console.log("made it to the end?");
+        return done(null, user);
+    });
 
-}), function);*/
+}));
 
 var createHash = function(password){
         return bCrypt.hashSync(password, bCrypt.genSaltSync(10), null);
@@ -119,16 +147,11 @@ app.get('/profile', function(req, res) {
     res.json(req.user);
 });
 
-//check to see if I need to call it API to get this work (obviously should change)
-//do I need res.json({message: 'authenticated'}), don't think so, but hell if I know
-
-//route puts in user
-//don't need to authenticate, pass in req.login as the first parameter.
-//new user would be created in here
-//have own middleware function
-
-//app.post();
-
+app.post('/login', passport.authenticate('local-login', {failureRedirect: '/'}),
+    function(req, res) {
+        console.log('entered login');
+        res.redirect('/secure.html');
+    });
 
 app.post('/signup', passport.authenticate('local-signup', { failureRedirect: '/signup'}),
     function(req, res, next) {

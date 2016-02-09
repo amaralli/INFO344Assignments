@@ -7,7 +7,8 @@ angular.module('users', [])
 
 		$http.get('/profile')
 			.then(function(response){
-				$scope.displayName = "allison";
+				$scope.email = response.data.email;
+				$scope.displayName = response.data.displayName;
 			})
 			.catch(function(err) {
 				console.log("ruh roh");
