@@ -54,7 +54,7 @@ passport.use('local-signup', new LocalStrategy({
      passReqToCallback : true 
  }, function(req, username, password, done) {
     console.log('entered local strategy callback');
-    if(req.body.confirm == req.body.password) {
+    if(req.body.confirmPass == req.body.password) {
         
         User.findOne({'email' : username}, function(err, user) {
             if(err) {
@@ -152,21 +152,23 @@ app.get('/profile', function(req, res) {
     res.json(req.user);
 });
 
-app.post('/login', passport.authenticate('local-login', {failureRedirect: '/'}),
+app.post('/api/login', passport.authenticate('local-login'/*, {failureRedirect: '/'}*/),
     function(req, res) {
+        res.json(req.user);
         console.log('entered login');
-        res.redirect('/secure.html');
+        //res.redirect('/secure.html');
     });
 
-app.post('/signup', passport.authenticate('local-signup', { failureRedirect: '/signup'}),
-    function(req, res, next) {
-        //console.dir(req.user);
-        /*req.login(req.user, function(err) {
-            if(err) { return next(err); }
-            return res.json(req.user);
-        }); */
+app.post('/api/signup', passport.authenticate('local-signup'/*, { failureRedirect: '/signup.html'}*/),
+     function(req, res, next) {
+    //     //console.dir(req.user);
+    //     req.login(req.user, function(err) {
+    //         if(err) { return next(err); }
+    //         return res.json(req.user);
+    //     }); 
         console.log('redirecting to secure home page');
-        res.redirect('/secure.html');
+    //     //res.redirect('/secure.html');
+        res.json(req.user);
     });
 
 //tell express to serve static files from the /static/public

@@ -9,16 +9,11 @@ var userSchema = new mongoose.Schema({
 	email: {type: String, unique: "true", required: "true"},
 	password: {type: String, required: "true"},
 	displayName: {type: String, required: "true"},
-	phone: Number
+	firstName: String,
+	lastName: String
 });
 
 var User = mongoose.model('User', userSchema);
-
-/*userSchema.methods.generateHash = function(password) {
-    return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
-};*/
-
-
 
 mongoose.connect(dbConfig.url);
 

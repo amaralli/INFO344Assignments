@@ -1,7 +1,6 @@
 'use strict';
 
 angular.module('users', [])
-	.constant('apiRoot', '/api/v1')
 	.controller('UserController', function($scope, $http, apiRoot) {
 		$scope.newUser = {};
 
