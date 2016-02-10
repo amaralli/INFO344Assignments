@@ -24,9 +24,8 @@ if (!cookieSigSecret) {
 
 var app = express();
 app.use(morgan('dev'));
-//url-encoded
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: false}));
+//app.use(bodyParser.urlencoded({extended: false}));
 
 app.use(session({
     secret: cookieSigSecret,
@@ -38,15 +37,55 @@ app.use(session({
 passport.use(new FacebookStrategy({
     clientID: '483767258477369',
     clientSecret: 'c90c60a65e24970bd0f5d79f3450b5e4',
-    callbackURL: 'http://localhost:8080/auth/facebook/callback'
+    callbackURL: 'http://localhost:8080/auth/facebook/callback',
+    profileFields: ['id', 'first_name', 'last_name', 'email']
   },
   function(accessToken, refreshToken, profile, cb) {
-    //mongoose.model('User').findOne({ 'id': profile.id }, function (err, user) {
-      //return cb(err, user);
-    //});
+    process.nextTick(function() {
+        User.findOne({'id' : profile.id}, function(err, user) {
+            if(err) {
+                console.log('Error on oAuth signin' + 'err');
+                return done(err);
+            }
+
+            if(user) {
+                console.log("ERROR");
+                return cb(null, user);
+            } else {
+                var newUser = new User();
+
+                newUser.id = profile.id;
+                console.log("Profile" + profile.id);
+                console.log("Real" + newUser.id);
+                //newUser.email = profile.emails[0].value;
+                newUser.email = profile._json.email;
+                console.log("Profile" + profile._json.email);
+                console.log("Real" + profile._json.email);
+                //newUser.firstName = profile.name.givenName;
+                newUser.firstName = profile._json.first_name;
+                console.log("Profile" + profile._json.first_name);
+                console.log("Real" + profile._json.first_name);
+                newUser.password = "hhhhh";
+                //newUser.lastName = profile.name.familyName;
+                newUser.lastName = profile._json.last_name;
+                console.log("Profile" + profile._json.last_name);
+                console.log("Real" + profile._json.last_name);
+                newUser.displayName = newUser.firstName + " " + newUser.lastName;
+                console.log(newUser);
+                newUser.oAuth = true;
+
+                newUser.save(function(err) {
+                    if(err) {
+                        console.log("Error saving user" + err);
+                        throw err;
+                    }
+                    return cb(null, newUser);
+                });
+            }
+        });
+    });
     return cb(null, profile);
-  }
-));
+  }));
 
 
 
@@ -140,11 +179,11 @@ passport.deserializeUser(function(user, done) {
 app.use(passport.initialize());
 app.use(passport.session());   
 
-app.get('/auth/facebook', passport.authenticate('facebook'));
+app.get('/auth/facebook', passport.authenticate('facebook', {scope: 'email'}));
 
 app.get('/auth/facebook/callback', passport.authenticate('facebook', { failureRedirect: '/' }), 
     function(req, res) {
- 		res.redirect('/secure.html');
+ 		res.redirect('/profile.html');
     }); 
 
 app.get('/signout', function(req, res) {

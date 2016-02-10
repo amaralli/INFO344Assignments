@@ -14,7 +14,7 @@ angular.module('signin', [])
 			$http.post('/api/login', newUser)
 				.then(function(response){
 					console.log("somehow this shit is chill");
-					$window.location.href = '/secure.html';
+					$window.location.href = '/profile.html';
 				})
 				.catch(function(err) {
 					$scope.show = "true";
