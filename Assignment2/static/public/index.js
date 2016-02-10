@@ -3,6 +3,8 @@
 angular.module('signin', [])
 	.controller('SignInController', function($scope, $http, $window) {
 
+		$scope.show = false;
+
 		$scope.submit = function() {
 			var newUser = {
 				email : $scope.email,
@@ -15,6 +17,7 @@ angular.module('signin', [])
 					$window.location.href = '/secure.html';
 				})
 				.catch(function(err) {
+					$scope.show = "true";
 					console.log("ruh roh");
 				});
 		}
