@@ -10,7 +10,9 @@ var userSchema = new mongoose.Schema({
 	password: {type: String, required: "true"},
 	displayName: {type: String, required: "true"},
 	firstName: String,
-	lastName: String
+	lastName: String,
+	oAuth: Boolean,
+	gravatarUrl: String
 });
 
 var User = mongoose.model('User', userSchema);

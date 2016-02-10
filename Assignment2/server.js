@@ -5,7 +5,8 @@ var session = require('express-session');
 var RedisStore = require('connect-redis')(session);
 var passport = require('passport');
 var mongoose = require('mongoose');
-var bCrypt = require('bcrypt-nodejs')
+var bCrypt = require('bcrypt-nodejs');
+var crypto = require('crypto');
 
 var authInfo = require('./secret/oauth.json');
 var callback = authInfo.callbackUrl;
@@ -70,7 +71,10 @@ passport.use('local-signup', new LocalStrategy({
 
                 newUser.email = username;
                 newUser.password = createHash(password);
+                var gravHash = crypto.createHash('md5').update(username).digest('hex');
+                newUser.gravatarUrl = "http://www.gravatar.com/avatar/" + gravHash;
                 newUser.displayName = req.body.displayName;
+                newUser.oAuth = false;
                 console.log("ended up creating a user");
 
                 newUser.save(function(err) {
