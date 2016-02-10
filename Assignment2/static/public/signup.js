@@ -4,6 +4,7 @@ angular.module('signup', [])
 	.controller('SignUpController', function($scope, $http, $window) {
 
 		$scope.show = false;
+		$scope.showPassError = false;
 
 		$scope.submit = function() {
 			var newUser = {
@@ -13,15 +14,20 @@ angular.module('signup', [])
 				displayName : $scope.displayName
 			};
 
-			$http.post('/api/signup', newUser)
-				.then(function(response){
-					console.log("somehow this shit is chill");
-					$window.location.href = '/profile.html';
-				})
-				.catch(function(err) {
-					$scope.show = true;
-					console.log("ruh roh");
-				});
+			if($scope.password == $scope.confirmPass) {
+				$scope.showPassError = false;
+				$http.post('/api/signup', newUser)
+					.then(function(response){
+						console.log("somehow this shit is chill");
+						$window.location.href = '/profile.html';
+					})
+					.catch(function(err) {
+						$scope.show = true;
+						console.log("ruh roh");
+					});
+			} else {
+				$scope.showPassError = true;
+			}
 		}
 
 	}); 

@@ -42,7 +42,7 @@ passport.use(new FacebookStrategy({
   },
   function(accessToken, refreshToken, profile, cb) {
     process.nextTick(function() {
-        User.findOne({'id' : profile.id}, function(err, user) {
+        User.findOne({'email' : profile._json.email}, function(err, user) {
             if(err) {
                 console.log('Error on oAuth signin' + 'err');
                 return done(err);
@@ -62,16 +62,20 @@ passport.use(new FacebookStrategy({
                 console.log("Profile" + profile._json.email);
                 console.log("Real" + profile._json.email);
                 //newUser.firstName = profile.name.givenName;
-                newUser.firstName = profile._json.first_name;
+                //newUser.firstName = profile._json.first_name;
                 console.log("Profile" + profile._json.first_name);
                 console.log("Real" + profile._json.first_name);
-                newUser.password = "hhhhh";
+                newUser.password = guid();
                 //newUser.lastName = profile.name.familyName;
-                newUser.lastName = profile._json.last_name;
+                //newUser.lastName = profile._json.last_name;
                 console.log("Profile" + profile._json.last_name);
                 console.log("Real" + profile._json.last_name);
-                newUser.displayName = newUser.firstName + " " + newUser.lastName;
-                console.log(newUser);
+                newUser.displayName = profile._json.first_name + " " + profile._json.last_name;
+                var gravHash = crypto.createHash('md5').update(newUser.email).digest('hex');
+                newUser.gravatarUrl = "http://www.gravatar.com/avatar/" + gravHash;
+
+
+                
                 newUser.oAuth = true;
 
                 newUser.save(function(err) {
@@ -79,15 +83,24 @@ passport.use(new FacebookStrategy({
                         console.log("Error saving user" + err);
                         throw err;
                     }
+                    console.log(newUser);
                     return cb(null, newUser);
                 });
             }
         });
     });
-    return cb(null, profile);
+    //return cb(null, profile);
   }));
 
-
+function guid() {
+  function s4() {
+    return Math.floor((1 + Math.random()) * 0x10000)
+      .toString(16)
+      .substring(1);
+  }
+  return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+    s4() + '-' + s4() + s4() + s4();
+}
 
 passport.use('local-signup', new LocalStrategy({
      usernameField: 'email',
@@ -149,6 +162,10 @@ passport.use('local-login', new LocalStrategy({
           return done(null, false);                 
         }
         // User exists but wrong password, log the error 
+        if(user.oAuth) {
+            console.log('User is a facebook user');
+            return done(null, false);
+        }
         if (!isValidPassword(user, password)){
           console.log('Invalid Password');
           return done(null, false);

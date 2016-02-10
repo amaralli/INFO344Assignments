@@ -36,9 +36,14 @@
 	    <input type="password" class="form-control" id="confirm-password" placeholder="Confirm Password" name="confirm" ng-model="confirmPass" required>
 	  </div>
 	  <div>
+	  	<div class="alert alert-error" ng-show="showPassError">
+	  		<span>
+	  			<p>Passwords need to match!!</p>
+	  		</span>	
+	  	</div>
 	  	<div class="alert alert-error" ng-show="show">
 	  		<span>
-	  			<p>FIX YO STUFF!</p>
+	  			<p>Username is taken!</p>
 	  		</span>	
 	  	</div>
 	  	<input type="submit" value="Log In"/>
