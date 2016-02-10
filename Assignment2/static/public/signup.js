@@ -16,7 +16,7 @@ angular.module('signup', [])
 			$http.post('/api/signup', newUser)
 				.then(function(response){
 					console.log("somehow this shit is chill");
-					$window.location.href = '/secure.html';
+					$window.location.href = '/profile.html';
 				})
 				.catch(function(err) {
 					$scope.show = true;

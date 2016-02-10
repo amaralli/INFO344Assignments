@@ -105,6 +105,7 @@ passport.use('local-signup', new LocalStrategy({
             if(user) {
                 //SIGN THE USER IN HERE
                 console.log("how did you get here.");
+                return done(null, false);
             } else {
                 var newUser = new User();
 
@@ -201,6 +202,52 @@ app.post('/api/login', passport.authenticate('local-login'/*, {failureRedirect: 
         console.log('entered login');
         //res.redirect('/secure.html');
     });
+
+app.put('/api/updateDispl', function(req, res) {
+    User.findOne({"email" : req.user.email}, function(err, user) {
+        if(err) {
+            return err;
+        }
+        if(!user) {
+            console.log("NOPE!");
+            res.status("403").send("You're not you...");
+        } else {
+            console.log(user.displayName);
+            user.displayName = req.body.displayName;
+            console.log(user.displayName);
+            user.save(function(err) {
+                    if(err) {
+                        return err
+                    }
+                });
+            res.json(req.user);
+        }
+    });
+});
+
+app.put('/api/updatePass', function(req, res) {
+    User.findOne({'email' : req.user.email}, function(err, user) {
+        if(!user) {
+            console.log("NOPE!");
+            res.status("403").send("You're not you...");
+        } else {
+            console.log("Should not be null/undef: " + req.user.email);
+            if(!isValidPassword(user, req.body.oldPass)) {
+                console.log("wrong pass");
+                res.status("403").send("Wrong pass");
+            } else {
+                console.log("correct pass, resetting pass");
+                user.password = createHash(req.body.newPass);
+                user.save(function(err) {
+                    if(err) {
+                        return err
+                    }
+                });
+                res.json(req.user);
+            }
+        }
+    });
+});
 
 app.post('/api/signup', passport.authenticate('local-signup'/*, { failureRedirect: '/signup.html'}*/),
      function(req, res, next) {
