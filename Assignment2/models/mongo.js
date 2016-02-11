@@ -3,22 +3,11 @@
 var mongoose = require('mongoose');
 var bcrypt   = require('bcrypt-nodejs');
 
-var dbConfig = require('./secret/config-mongo.json');
-
-var userSchema = new mongoose.Schema({
+console.log("Here we are, in the database!");
+module.exports = mongoose.model('User', {
 	email: {type: String, unique: "true", required: "true"},
 	password: {type: String, required: "true"},
 	displayName: {type: String, required: "true"},
 	oAuth: Boolean,
 	gravatarUrl: String
 });
-
-var User = mongoose.model('User', userSchema);
-
-mongoose.connect(dbConfig.url);
-
-mongoose.connection.on('error', function(err) {
-    console.error(err);
-});
-
-module.exports = User;

@@ -3,11 +3,13 @@
 angular.module('signup', [])
 	.controller('SignUpController', function($scope, $http, $window) {
 
+
 		$scope.show = false;
 		$scope.showPassError = false;
 		$scope.loading = false;
 
 		$scope.submit = function() {
+			console.log("entered signup angular");
 			var newUser = {
 				email : $scope.email,
 				password : $scope.password,
@@ -27,7 +29,7 @@ angular.module('signup', [])
 					.catch(function(err) {
 						$scope.loading = false;
 						$scope.show = true;
-						console.log("ruh roh");
+						console.log("ruh roh signup");
 					});
 			} else {
 				$scope.showPassError = true;
