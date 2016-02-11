@@ -1,11 +1,14 @@
 'use strict';
 
+//signup a new user, confirm proper credentials in real time
 angular.module('signup', [])
 	.controller('SignUpController', function($scope, $http, $window) {
 
-
+		//show username repeat use error
 		$scope.show = false;
+		//show not matching passwords error
 		$scope.showPassError = false;
+		//show loading wheel
 		$scope.loading = false;
 
 		$scope.submit = function() {
@@ -17,13 +20,13 @@ angular.module('signup', [])
 				displayName : $scope.displayName
 			};
 
+			//double check passwords match
 			if($scope.password == $scope.confirmPass) {
 				$scope.showPassError = false;
 				$scope.loading = true;
 				$http.post('/api/signup', newUser)
 					.then(function(response){
 						$scope.loading = false;
-						console.log("somehow this shit is chill");
 						$window.location.href = '/profile.html';
 					})
 					.catch(function(err) {

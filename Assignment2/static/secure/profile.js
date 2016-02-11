@@ -1,5 +1,9 @@
 'use strict';
 
+//loads profile info for user
+//allows user to update display name
+//allows user to update password
+
 var app = angular.module('users', [])
 	.controller('UserController', function($scope, $http) {
 		$scope.newUser = {};
@@ -34,17 +38,10 @@ var app = angular.module('users', [])
 
 		$scope.submit2 = function() {
 
-			//var changeDisplayName = {
-			//	displayName : $scope.displayName
-			//};
-			//console.log($scope.user);
-			//console.log($scope.email + "BADBADBADBAD");
 			var newData = {
 				displayName : $scope.changeDisplayName
 			}
 
-			//var newDispl = $scope.displayName;
-			//console.log(newDispl);
 			$http.put('/api/updateDispl', newData)
 				.then(function(response) {
 					$scope.displayName = $scope.changeDisplayName;
@@ -87,15 +84,4 @@ var app = angular.module('users', [])
 		}
 
 
-	}) 
-
-//	.controller('DisplayChangeController', function($scope, $http) {
-		
-//	})
-
-//	.controller('PassChangeController', function($scope, $http) {
-		
-		
-
-//	})
-;
+	});

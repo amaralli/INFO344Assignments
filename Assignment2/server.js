@@ -65,7 +65,6 @@ app.use(function(req, res, next) {
     }    
 });
 
-
 //tell express to serve static files from the /static/secure
 //subdirectory as well, but since this middleware function
 //is added after the check above, express will never call it
