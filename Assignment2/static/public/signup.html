@@ -36,21 +36,26 @@
 	    <input type="password" class="form-control" id="confirm-password" placeholder="Confirm Password" name="confirm" ng-model="confirmPass" required>
 	  </div>
 	  <div>
-	  	<div class="alert alert-error" ng-show="showPassError">
+	  	<div class="alert alert-danger" role="alert" ng-show="showPassError">
+  			<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+ 			 <span class="sr-only">Error:</span>
+  			Passwords need to match!
+		</div>
+	  	<div class="alert alert-danger" role="alert" ng-show="show">
+  			<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+ 			 <span class="sr-only">Error:</span>
+  			Username is taken!
+		</div>
+	  	<div ng-show="loading">
 	  		<span>
-	  			<p>Passwords need to match!!</p>
+	  			<p>Loading is underway!</p>
+	  			<img src="ajax-loader.gif">
 	  		</span>	
 	  	</div>
-	  	<div class="alert alert-error" ng-show="show">
-	  		<span>
-	  			<p>Username is taken!</p>
-	  		</span>	
-	  	</div>
-	  	<input type="submit" value="Log In"/>
+
+	  	<button class="btn btn-primary" type="submit">Get started!</button>
 	  </div>
 	</form>
-
-	<button class="btn btn-primary" form="signup-form" type="submit">Get started!</button>
 
 
 </body>

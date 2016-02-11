@@ -5,6 +5,7 @@ angular.module('signup', [])
 
 		$scope.show = false;
 		$scope.showPassError = false;
+		$scope.loading = false;
 
 		$scope.submit = function() {
 			var newUser = {
@@ -16,12 +17,15 @@ angular.module('signup', [])
 
 			if($scope.password == $scope.confirmPass) {
 				$scope.showPassError = false;
+				$scope.loading = true;
 				$http.post('/api/signup', newUser)
 					.then(function(response){
+						$scope.loading = false;
 						console.log("somehow this shit is chill");
 						$window.location.href = '/profile.html';
 					})
 					.catch(function(err) {
+						$scope.loading = false;
 						$scope.show = true;
 						console.log("ruh roh");
 					});

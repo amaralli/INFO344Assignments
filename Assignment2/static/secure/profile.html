@@ -22,8 +22,8 @@
 	<div ng-show="showProf">
 		<h2>Your life. Right here.</h2>
 		<img src="{{gravatarUrl}}?d=wavatar">
-		<p>EMAIL: {{email}}</p>
-		<p>USERNAME: {{displayName}}</p>
+		<h3>EMAIL: {{email}}</h3>
+		<h3>USERNAME: {{displayName}}</h3>
 
 		<h4>Do you want to change your display name?</h4>
 		<form ng-submit="submit2()">
@@ -41,11 +41,11 @@
 					<label for="currPass">Current Password</label>
 					<input class="form-control" id="currPass" placeholder="Current password" name="curPass" ng-model="curPass" required>
 				</div>
-				<div class="alert alert-error" ng-show="incorrectPass">
-	  				<span>
-	  					<p>Incorrect password</p>
-	  				</span>	
-	  			</div>
+  				<div class="alert alert-danger" role="alert" ng-show="incorrectPass">
+  					<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+ 			 		<span class="sr-only">Error:</span>
+  					Password is incorrect!
+				</div>
 				<div class="form-group">
 					<label for="newPass">New Password</label>
 					<input type="password" class="form-control" id="password" placeholder="New password" name="newPassword" ng-model="newPassword" required>
@@ -54,14 +54,15 @@
 					<label for="confirmNewPass">Confirm New Password</label>
 					<input type="password" class="form-control" id="password" placeholder="Confirm new password" name="password" ng-model="confirmNewPassword" required>
 				</div>
-				<div class="alert alert-error" ng-show="confirmPass">
-	  				<span>
-	  					<p>Passwords need to match!!</p>
-	  				</span>	
-	  			</div>
-			  	<button class="btn btn-primary" type="submit"></button>
+				<div class="alert alert-danger" role="alert" ng-show="confirmPass">
+  					<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+ 			 		<span class="sr-only">Error:</span>
+  					Passwords need to match!
+				</div>
+			  	<input class="btn btn-primary" type="submit">
 			</form>
 		</div>
+		<h3>Done checking yourself out?</h3>
 		<button class="btn btn-primary" ng-click="hideProfile()">Hide profile information</button>
 	</div>
 

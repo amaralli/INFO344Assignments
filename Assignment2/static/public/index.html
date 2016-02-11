@@ -27,11 +27,20 @@
 	    <label for="exampleInputPassword1">Password</label>
 	    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" name="password" ng-model="password" required>
 	  </div>
-	  <input class="btn btn-primary" type="submit">Sign in!</button>
-	  <span ng-show="show">
-	  	<p>Something is wrong!</p>
-	  </span>
+	  <button class="btn btn-primary" type="submit">Sign in!</button>
+	  <div ng-show="loading">
+	  		<span>
+	  			<p>Loading is underway!</p>
+	  			<img src="ajax-loader.gif">
+	  		</span>	
+	  	</div>
+	  		<div class="alert alert-danger" role="alert" ng-show="show">
+  			<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+ 			 <span class="sr-only">Error:</span>
+  			Username/Pass combo is incorrect!
+		</div>
 	</form>
+
 
 	
 
@@ -40,7 +49,8 @@
 
 	<a href="signup.html" type="button" class="btn btn-info">Go!</a>
 
-	<a href="/auth/facebook", class="btn btn-block btn-social btn-facebook"> Login with Facebook</a>
+	<h2>Not interested in local authentication? Here's oAuth!</h2>
+	<a href="/auth/facebook", class="btn btn-success"> Login with Facebook</a>
 
 
 </body>
